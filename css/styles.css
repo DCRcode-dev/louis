@@ -124,24 +124,20 @@ html, body {
 }
 
 .ios-brand-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  background: linear-gradient(135deg, var(--color-espresso), #3F3732);
-  border: 1px solid var(--border-medium);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 40% 30%, #2E2723 0%, #181412 100%);
+  border: 1px solid rgba(182, 134, 40, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(42, 36, 33, 0.16);
+  box-shadow: 0 2px 8px rgba(24, 20, 18, 0.2), inset 0 1px 1px rgba(255, 240, 210, 0.12);
   flex-shrink: 0;
 }
 
-.ios-brand-avatar-text {
-  color: var(--color-gold);
-  font-family: 'Cinzel', Georgia, serif;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1;
+.ios-brand-avatar svg {
+  display: block;
 }
 
 .ios-header-titles {

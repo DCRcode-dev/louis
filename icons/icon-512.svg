@@ -1,37 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#181513" />
-      <stop offset="100%" stop-color="#241F1C" />
-    </linearGradient>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#E2C275" />
-      <stop offset="50%" stop-color="#B68628" />
+    <!-- Deep luxury espresso background with subtle vignette -->
+    <radialGradient id="bgVignette" cx="50%" cy="46%" r="68%">
+      <stop offset="0%" stop-color="#26201D" />
+      <stop offset="60%" stop-color="#1A1614" />
+      <stop offset="100%" stop-color="#100D0B" />
+    </radialGradient>
+
+    <!-- Warm antique champagne gold gradient -->
+    <linearGradient id="goldGradient" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#F2E3C6" />
+      <stop offset="25%" stop-color="#D9B76D" />
+      <stop offset="60%" stop-color="#B68628" />
       <stop offset="100%" stop-color="#8C6318" />
     </linearGradient>
-    <linearGradient id="softGold" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#EAD6A3" />
-      <stop offset="100%" stop-color="#B68628" />
+
+    <!-- Bright specular highlight -->
+    <linearGradient id="specularGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5DE" />
+      <stop offset="100%" stop-color="#C59C40" />
     </linearGradient>
   </defs>
-  <!-- Background with iOS squircle shape -->
-  <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
-  
-  <!-- Quiet luxury hairline accent border -->
-  <rect x="14" y="14" width="484" height="484" rx="102" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" stroke-opacity="0.35" />
-  
-  <!-- Subtle elegant M monogram -->
-  <g fill="url(#softGold)" transform="translate(141, 120)">
-    <!-- Left vertical with refined serifs -->
-    <path d="M 12 18 C 12 18 24 18 34 18 C 34 32 30 50 30 185 C 30 198 34 204 38 204 L 8 204 C 12 204 16 198 16 185 C 16 50 12 32 8 18 Z" />
-    <!-- Diagonal downstroke (thick) -->
-    <polygon points="30,22 115,178 128,178 48,22" />
-    <!-- Diagonal upstroke (hairline) -->
-    <polygon points="120,178 127,178 200,26 193,22" />
-    <!-- Right vertical with refined serifs -->
-    <path d="M 198 18 C 198 18 210 18 220 18 C 220 32 216 50 216 185 C 216 198 220 204 224 204 L 194 204 C 198 204 202 198 202 185 C 202 50 198 32 194 18 Z" />
+
+  <!-- Full-bleed background for Android Adaptive & Maskable Icons -->
+  <rect width="512" height="512" fill="url(#bgVignette)" />
+
+  <!-- Concentric Executive Framing Seal (Safely inside Android 66% circle: radius 152px) -->
+  <circle cx="256" cy="256" r="154" fill="none" stroke="url(#goldGradient)" stroke-width="1.2" stroke-opacity="0.3" />
+  <circle cx="256" cy="256" r="146" fill="none" stroke="url(#goldGradient)" stroke-width="0.8" stroke-opacity="0.2" stroke-dasharray="3 4" />
+
+  <!-- Four cardinal micro-accent dots -->
+  <circle cx="256" cy="110" r="2.2" fill="url(#goldGradient)" opacity="0.6" />
+  <circle cx="256" cy="402" r="2.2" fill="url(#goldGradient)" opacity="0.6" />
+  <circle cx="110" cy="256" r="2.2" fill="url(#goldGradient)" opacity="0.6" />
+  <circle cx="402" cy="256" r="2.2" fill="url(#goldGradient)" opacity="0.6" />
+
+  <!-- Bespoke Architectural Serif 'M' Monogram (Centered at 256, 240) -->
+  <g fill="url(#goldGradient)">
+    <!-- Left Vertical Pillar with Classic Roman Serifs -->
+    <path d="M 172 176 L 204 176 C 199 181 197 187 197 196 L 197 302 C 197 311 199 317 204 322 L 172 322 C 177 317 179 311 179 302 L 179 196 C 179 187 177 181 172 176 Z" />
+
+    <!-- Right Vertical Pillar with Classic Roman Serifs -->
+    <path d="M 308 176 L 340 176 C 335 181 333 187 333 196 L 333 302 C 333 311 335 317 340 322 L 308 322 C 313 317 315 311 315 302 L 315 196 C 315 187 313 181 308 176 Z" />
+
+    <!-- Left-to-Center Diagonal Downstroke (Thick, confident) -->
+    <polygon points="189,184 256,296 267,296 207,184" />
+
+    <!-- Center-to-Right Diagonal Upstroke (Slender, refined) -->
+    <polygon points="252,296 261,296 323,184 315,184" />
+
+    <!-- Apex Keystone Diamond -->
+    <polygon points="256,297 261,304 256,311 251,304" fill="url(#specularGold)" />
   </g>
-  
-  <!-- Wordmark 'LOUIS' in tracked antique gold -->
-  <text x="256" y="416" font-family="'Cinzel', 'Plus Jakarta Sans', -apple-system, serif" font-size="28" font-weight="600" letter-spacing="10" fill="url(#goldGrad)" text-anchor="middle">LOUIS</text>
+
+  <!-- Elegant tracked wordmark 'LOUIS' securely within safe zone -->
+  <text 
+    x="256" 
+    y="362" 
+    font-family="-apple-system, 'Cinzel', 'Plus Jakarta Sans', Georgia, serif" 
+    font-size="19" 
+    font-weight="600" 
+    letter-spacing="9" 
+    fill="url(#goldGradient)" 
+    text-anchor="middle"
+    opacity="0.92"
+  >LOUIS</text>
 </svg>

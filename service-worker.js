@@ -1,10 +1,13 @@
-// Louis PWA Service Worker — Build: 2026.09.03-v5
-const CACHE_NAME = 'louis-briefings-v5';
+// Louis PWA Service Worker — Build: 2026.09.03-v6
+const CACHE_NAME = 'louis-briefings-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './css/styles.css',
   './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
   './icons/icon-192.svg',
   './icons/icon-512.svg',
   './js/app.js',
