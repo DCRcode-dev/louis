@@ -326,17 +326,54 @@ class DataService {
           executiveWatchlist: this.parseList(row.Watchlist || row.Next_Steps)
         });
       } else if (dateVal) {
-        // Daily Recording Summary entry
+        // Daily Recording Summary entry from Claude MCP
+        let summaryContent = row.Recording_Summary || row.Transcript_Summary || row.Summary || '';
+        
+        if (!summaryContent) {
+          const sections = [];
+          if (row.Subsidiary_Breakdowns) {
+            sections.push(`### Subsidiary & Operations Breakdown\n${row.Subsidiary_Breakdowns}`);
+          }
+          if (row.Decisions_Logged) {
+            sections.push(`### Key Decisions Logged\n${row.Decisions_Logged}`);
+          }
+          if (row.Action_Items) {
+            sections.push(`### Action Items & Deliverables\n${row.Action_Items}`);
+          }
+          if (row.Strategic_Risks) {
+            sections.push(`### Strategic Risks & Governance\n${row.Strategic_Risks}`);
+          }
+          if (row.Healthcare_Glossary) {
+            sections.push(`### Executive Healthcare Glossary\n${row.Healthcare_Glossary}`);
+          }
+          summaryContent = sections.join('\n\n');
+        }
+
+        // Auto-extract tags from breakdowns if Tags column is empty
+        let tags = this.parseTags(row.Tags || row.Subsidiaries);
+        if (!tags.length && row.Subsidiary_Breakdowns) {
+          const matches = row.Subsidiary_Breakdowns.match(/\*\*\[(.*?)\]\*\*/g);
+          if (matches) {
+            tags = matches
+              .map(m => m.replace(/\*\*\[|\]\*\*/g, '').split('/')[0].trim())
+              .filter((v, i, a) => a.indexOf(v) === i && !v.includes('No material'))
+              .slice(0, 4);
+          }
+        }
+        if (!tags.length) {
+          tags = ['MedHoldings', 'Network Operations', 'Strategy'];
+        }
+
         dailySummaries.push({
           date: dateVal,
           displayDate: row.Display_Date || this.formatDateString(dateVal),
-          title: row.Title || row.Meeting_Title || 'Executive Daily Recording Briefing',
-          meetingType: row.Meeting_Type || 'Transcript Ingestion',
-          duration: row.Duration || 'Recorded Session',
+          title: row.Title || row.Meeting_Title || 'Executive Daily Briefing',
+          meetingType: row.Meeting_Type || 'Claude Audio Intelligence',
+          duration: row.Duration || 'Daily Ingestion',
           processedAt: row.Processed_At || dateVal,
           executivePulse: row.Executive_Summary || row.Executive_Pulse || '',
-          recordingSummary: row.Recording_Summary || row.Transcript_Summary || row.Summary || '',
-          tags: this.parseTags(row.Tags || row.Subsidiaries)
+          recordingSummary: summaryContent,
+          tags: tags
         });
       }
     });
