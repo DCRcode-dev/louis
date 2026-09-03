@@ -1,4 +1,5 @@
-const CACHE_NAME = 'louis-briefings-v3';
+// Louis PWA Service Worker — Build: 2026.09.02-v4
+const CACHE_NAME = 'louis-briefings-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

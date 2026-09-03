@@ -1317,7 +1317,7 @@ html, body {
   bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-height) + 16px);
   left: 50%;
   transform: translateX(-50%) translateY(16px);
-  z-index: 380;
+  z-index: 9999;
   display: flex;
   align-items: center;
   gap: 8px;

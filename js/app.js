@@ -206,15 +206,15 @@ class App {
       });
     };
 
-    window.addEventListener('load', () => {
+    const registerSW = () => {
       navigator.serviceWorker.register('./service-worker.js')
         .then((reg) => {
           swReg = reg;
           this.swReg = reg;
-          console.log('MedHoldings PWA Service Worker registered:', reg.scope);
+          console.log('Louis PWA Service Worker registered:', reg.scope);
 
           // If a new worker is already waiting, show update pill immediately
-          if (reg.waiting) {
+          if (reg.waiting && navigator.serviceWorker.controller) {
             showUpdateChip(reg);
           }
 
@@ -227,11 +227,20 @@ class App {
               }
             });
           });
+
+          // Proactively check for server changes on launch
+          reg.update().catch(() => {});
         })
         .catch((err) => {
           console.log('Service Worker registration skipped:', err);
         });
-    });
+    };
+
+    if (document.readyState === 'complete') {
+      registerSW();
+    } else {
+      window.addEventListener('load', registerSW);
+    }
 
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (updateAccepted) {
@@ -240,10 +249,10 @@ class App {
     });
 
     // Check for updates whenever user returns to the app
-    let lastCheck = Date.now();
+    let lastCheck = 0;
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState !== 'visible') return;
-      if (Date.now() - lastCheck < 60 * 1000) return; // 1 min throttle
+      if (Date.now() - lastCheck < 30 * 1000) return; // 30s throttle
       lastCheck = Date.now();
       if (swReg) swReg.update().catch(() => {});
     });
@@ -255,7 +264,7 @@ class App {
             if (swReg.waiting || swReg.installing) {
               showUpdateChip(swReg);
             }
-          }, 800);
+          }, 600);
         }).catch(() => {});
       }
     };
