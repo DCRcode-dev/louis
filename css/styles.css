@@ -138,9 +138,10 @@ html, body {
 
 .ios-brand-avatar-text {
   color: var(--color-gold);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .ios-header-titles {

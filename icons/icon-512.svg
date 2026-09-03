@@ -1,41 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#181E25" />
-      <stop offset="100%" stop-color="#2A2421" />
+      <stop offset="0%" stop-color="#181513" />
+      <stop offset="100%" stop-color="#241F1C" />
     </linearGradient>
     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="0%" stop-color="#E2C275" />
       <stop offset="50%" stop-color="#B68628" />
-      <stop offset="100%" stop-color="#8E6516" />
+      <stop offset="100%" stop-color="#8C6318" />
     </linearGradient>
-    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F04E23" />
-      <stop offset="100%" stop-color="#C8461E" />
+    <linearGradient id="softGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EAD6A3" />
+      <stop offset="100%" stop-color="#B68628" />
     </linearGradient>
   </defs>
   <!-- Background with iOS squircle shape -->
   <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
   
-  <!-- Warm gold hairline border -->
-  <rect x="8" y="8" width="496" height="496" rx="107" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-opacity="0.35" />
+  <!-- Quiet luxury hairline accent border -->
+  <rect x="14" y="14" width="484" height="484" rx="102" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" stroke-opacity="0.35" />
   
-  <!-- Caduceus / Pillar / M-H abstract emblem in warm gold -->
-  <g transform="translate(106, 116)">
-    <!-- Central Staff -->
-    <path d="M150 20 L150 260" stroke="url(#terracottaGrad)" stroke-width="18" stroke-linecap="round"/>
-    
-    <!-- Left Wing / M pillar -->
-    <path d="M50 240 L50 90 L130 180 L150 160" fill="none" stroke="url(#goldGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Right Wing / H pillar -->
-    <path d="M250 240 L250 90 L170 180 L150 160" fill="none" stroke="url(#goldGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-    
-    <!-- Warm Gold Executive Star / Dot -->
-    <circle cx="150" cy="40" r="20" fill="url(#goldGrad)" />
+  <!-- Subtle elegant M monogram -->
+  <g fill="url(#softGold)" transform="translate(141, 120)">
+    <!-- Left vertical with refined serifs -->
+    <path d="M 12 18 C 12 18 24 18 34 18 C 34 32 30 50 30 185 C 30 198 34 204 38 204 L 8 204 C 12 204 16 198 16 185 C 16 50 12 32 8 18 Z" />
+    <!-- Diagonal downstroke (thick) -->
+    <polygon points="30,22 115,178 128,178 48,22" />
+    <!-- Diagonal upstroke (hairline) -->
+    <polygon points="120,178 127,178 200,26 193,22" />
+    <!-- Right vertical with refined serifs -->
+    <path d="M 198 18 C 198 18 210 18 220 18 C 220 32 216 50 216 185 C 216 198 220 204 224 204 L 194 204 C 198 204 202 198 202 185 C 202 50 198 32 194 18 Z" />
   </g>
   
-  <!-- Bottom Brand Text -->
-  <text x="256" y="430" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="34" font-weight="700" letter-spacing="6" fill="#FAF7F2" text-anchor="middle">MEDHOLDINGS</text>
-  <text x="256" y="462" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="18" font-weight="600" letter-spacing="4" fill="#B68628" text-anchor="middle">EXECUTIVE BRIEF</text>
+  <!-- Wordmark 'LOUIS' in tracked antique gold -->
+  <text x="256" y="416" font-family="'Cinzel', 'Plus Jakarta Sans', -apple-system, serif" font-size="28" font-weight="600" letter-spacing="10" fill="url(#goldGrad)" text-anchor="middle">LOUIS</text>
 </svg>

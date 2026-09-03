@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medholdings-briefings-v2';
+const CACHE_NAME = 'louis-briefings-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

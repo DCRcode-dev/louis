@@ -1,7 +1,7 @@
 {
-  "name": "MedHoldings Executive Briefings",
-  "short_name": "MedHoldings",
-  "description": "Executive Daily Briefings & Weekly Synthesis for Vice President of MedHoldings Capital",
+  "name": "Louis",
+  "short_name": "Louis",
+  "description": "Executive Briefings & Weekly Synthesis",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FAF7F2",
