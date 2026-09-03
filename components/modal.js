@@ -4,18 +4,22 @@
  * manual sync triggers, and data source management.
  */
 
+const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1Sb-RA1nEmf0U-8U8fKHzyktNAOLSRqFCE2ntWrEpndQ/edit';
+
 export class SettingsModal {
   constructor({ dataService, onSyncTriggered }) {
     this.dataService = dataService;
     this.onSyncTriggered = onSyncTriggered;
     this.overlay = document.getElementById('settings-overlay');
     this.sheet = document.getElementById('settings-sheet');
+    this.handle = document.querySelector('.ios-sheet-handle');
     this.closeBtn = document.getElementById('btn-close-settings');
     this.saveBtn = document.getElementById('btn-save-settings');
     this.syncBtn = document.getElementById('btn-sync-now');
     this.otaBtn = document.getElementById('btn-check-ota');
     this.resetBtn = document.getElementById('btn-reset-sample');
     this.urlInput = document.getElementById('input-appscript-url');
+    this.pasteBtn = document.getElementById('btn-paste-url');
     this.syncStatusText = document.getElementById('sync-status-display');
     this.lastSyncText = document.getElementById('sync-timestamp-display');
 
@@ -24,14 +28,64 @@ export class SettingsModal {
   }
 
   bindEvents() {
+    // Done / Close button
     if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => this.close());
-    }
-    if (this.overlay) {
-      this.overlay.addEventListener('click', (e) => {
-        if (e.target === this.overlay) this.close();
+      this.closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.close();
       });
     }
+
+    // Overlay backdrop tap (only close if not interacting with an input)
+    if (this.overlay) {
+      this.overlay.addEventListener('click', (e) => {
+        if (e.target === this.overlay) {
+          if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+            document.activeElement.blur();
+            return;
+          }
+          this.close();
+        }
+      });
+    }
+
+    // Guard input focus on iOS Safari: ensure sheet never dismisses or displaces
+    if (this.urlInput) {
+      this.urlInput.addEventListener('focus', () => {
+        if (this.sheet) {
+          this.sheet.style.transform = 'translateY(0)';
+        }
+      });
+      this.urlInput.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+
+    // Instant One-Tap Paste button
+    if (this.pasteBtn) {
+      this.pasteBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+          if (navigator.clipboard && navigator.clipboard.readText) {
+            const text = await navigator.clipboard.readText();
+            if (text) {
+              this.urlInput.value = text.trim();
+              this.showFeedback('Link pasted from clipboard');
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('Clipboard read failed:', err);
+        }
+        // Fallback: focus input so iOS paste callout appears
+        if (this.urlInput) {
+          this.urlInput.focus();
+          this.showFeedback('Tap inside to paste link');
+        }
+      });
+    }
+
     if (this.saveBtn) {
       this.saveBtn.addEventListener('click', () => this.handleSave());
     }
@@ -53,26 +107,27 @@ export class SettingsModal {
       this.resetBtn.addEventListener('click', () => this.handleResetData());
     }
 
-    // Touch gesture swipe-down to dismiss modal
-    let startY = 0;
-    if (this.sheet) {
-      this.sheet.addEventListener('touchstart', (e) => {
+    // Swipe-down to dismiss: STRICTLY restricted to the grab handle only!
+    // Never attached to the sheet body or input fields.
+    if (this.handle) {
+      let startY = 0;
+      this.handle.addEventListener('touchstart', (e) => {
         startY = e.touches[0].clientY;
       }, { passive: true });
 
-      this.sheet.addEventListener('touchmove', (e) => {
+      this.handle.addEventListener('touchmove', (e) => {
         const diff = e.touches[0].clientY - startY;
-        if (diff > 0 && this.sheet.scrollTop <= 0) {
+        if (diff > 0 && this.sheet) {
           this.sheet.style.transform = `translateY(${diff}px)`;
         }
       }, { passive: true });
 
-      this.sheet.addEventListener('touchend', (e) => {
+      this.handle.addEventListener('touchend', (e) => {
         const diff = e.changedTouches[0].clientY - startY;
-        if (diff > 120) {
+        if (diff > 90) {
           this.close();
-        } else {
-          this.sheet.style.transform = '';
+        } else if (this.sheet) {
+          this.sheet.style.transform = 'translateY(0)';
         }
       }, { passive: true });
     }
@@ -82,21 +137,25 @@ export class SettingsModal {
     this.isOpen = true;
     const config = this.dataService.config;
     if (this.urlInput) {
-      this.urlInput.value = config.appsScriptUrl || '';
+      // Pre-fill with user's configured URL or default to Claude's MedHoldings sheet
+      this.urlInput.value = config.appsScriptUrl || DEFAULT_SHEET_URL;
     }
     this.updateStatusDisplay();
 
     if (this.overlay && this.sheet) {
       this.overlay.classList.add('is-visible');
       document.body.style.overflow = 'hidden';
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.sheet.style.transform = 'translateY(0)';
-      }, 10);
+      });
     }
   }
 
   close() {
     this.isOpen = false;
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
     if (this.sheet) {
       this.sheet.style.transform = 'translateY(100%)';
     }
@@ -106,7 +165,7 @@ export class SettingsModal {
       }
       document.body.style.overflow = '';
       if (this.sheet) this.sheet.style.transform = '';
-    }, 300);
+    }, 280);
   }
 
   updateStatusDisplay() {

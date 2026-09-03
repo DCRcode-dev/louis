@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Louis</title>
   
   <!-- iOS PWA Meta Tags -->
@@ -118,16 +118,27 @@
 
         <div class="settings-form-group">
           <label class="settings-label" for="input-appscript-url">Google Sheet Link or Apps Script URL</label>
-          <input 
-            type="url" 
-            id="input-appscript-url" 
-            class="settings-input" 
-            placeholder="https://docs.google.com/spreadsheets/d/... or Apps Script URL"
-            autocomplete="off"
-            spellcheck="false"
-          >
+          <div class="settings-input-wrapper">
+            <input 
+              type="url" 
+              id="input-appscript-url" 
+              class="settings-input" 
+              placeholder="Paste Google Sheet link or Apps Script URL"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            >
+            <button type="button" class="btn-paste-ios" id="btn-paste-url" title="Paste from clipboard">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Paste</span>
+            </button>
+          </div>
           <p class="settings-hint">
-            Paste your Google Sheet link (shared as "Anyone with link can view") or your deployed Google Apps Script Web App URL.
+            Paste your Google Sheet link or your deployed Google Apps Script Web App URL.
           </p>
         </div>
 
