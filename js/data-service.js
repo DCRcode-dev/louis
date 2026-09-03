@@ -148,14 +148,16 @@ class DataService {
   }
 
   /**
-   * Fetches the latest data from configured Google Apps Script Web App or Google Sheets CSV endpoint.
-   * If not configured or if network fails, gracefully returns cached or default sample data.
+   * Fetches the latest data from configured Google Sheet URL or Apps Script Web App.
+   * Supports:
+   * 1. Direct Google Sheet link: https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit
+   * 2. Google Sheet ID directly
+   * 3. Google Apps Script Web App URL: https://script.google.com/macros/s/<ID>/exec
    */
   async fetchData(forceRefresh = false) {
-    const url = this.config.appsScriptUrl ? this.config.appsScriptUrl.trim() : '';
+    const rawInput = this.config.appsScriptUrl ? this.config.appsScriptUrl.trim() : '';
 
-    if (!url) {
-      // If no remote URL configured, ensure we have at least the rich sample dataset
+    if (!rawInput) {
       if (!this.data || !this.data.dailySummaries || this.data.dailySummaries.length === 0) {
         this.saveCache(DEFAULT_SAMPLE_DATA);
       }
@@ -163,28 +165,46 @@ class DataService {
         success: true,
         source: 'local_cache',
         data: this.data,
-        message: 'Loaded from local storage. Add Google Sheets URL in settings to connect live.'
+        message: 'Paste your Google Sheet link in settings (⚙) to stream live briefings.'
       };
     }
 
     try {
-      // Add cache buster if force refresh
-      const fetchUrl = forceRefresh ? `${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}` : url;
-      
-      const response = await fetch(fetchUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        },
-        mode: 'cors'
-      });
+      // Check if input is a direct Google Sheet link or raw Sheet ID
+      const sheetMatch = rawInput.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/) || 
+                         (!rawInput.includes('http') && rawInput.length > 20 ? [null, rawInput] : null);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status} from Google endpoint`);
+      let normalizedData = null;
+
+      if (sheetMatch && sheetMatch[1]) {
+        // Direct Google Sheet mode via public CSV / GViz
+        const sheetId = sheetMatch[1];
+        const cacheBust = forceRefresh ? `&_t=${Date.now()}` : '';
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv${cacheBust}`;
+        
+        const response = await fetch(csvUrl, { mode: 'cors' });
+        if (!response.ok) {
+          throw new Error(`Google Sheet returned HTTP ${response.status}. Ensure sheet sharing is set to "Anyone with the link can view".`);
+        }
+        const csvText = await response.text();
+        const rows = this.parseCSV(csvText);
+        normalizedData = this.normalizeResponse(rows);
+      } else {
+        // Google Apps Script Web App JSON mode
+        const fetchUrl = forceRefresh ? `${rawInput}${rawInput.includes('?') ? '&' : '?'}t=${Date.now()}` : rawInput;
+        const response = await fetch(fetchUrl, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors'
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status} from Google Apps Script endpoint`);
+        }
+
+        const raw = await response.json();
+        normalizedData = this.normalizeResponse(raw);
       }
-
-      const raw = await response.json();
-      const normalizedData = this.normalizeResponse(raw);
 
       if (normalizedData && normalizedData.dailySummaries && normalizedData.dailySummaries.length > 0) {
         this.saveCache(normalizedData);
@@ -195,18 +215,74 @@ class DataService {
           message: 'Synced successfully with Google Sheets database.'
         };
       } else {
-        throw new Error('Endpoint returned empty or invalid schema');
+        throw new Error('Sheet returned empty or unrecognized columns');
       }
     } catch (err) {
-      console.warn('Sync failed, falling back to local cached data:', err);
+      console.warn('Sync failed, falling back to cached data:', err);
       return {
         success: false,
         source: 'cache_fallback',
         error: err.message,
         data: this.data,
-        message: `Offline or Google Sheets sync issue: ${err.message}. Showing cached data.`
+        message: `Sync issue: ${err.message}. Showing cached data.`
       };
     }
+  }
+
+  /**
+   * RFC 4180 compliant CSV parser for Google Sheets exports
+   */
+  parseCSV(text) {
+    if (!text) return [];
+    const rows = [];
+    let currentRow = [];
+    let currentVal = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const nextChar = text[i + 1];
+
+      if (char === '"') {
+        if (inQuotes && nextChar === '"') {
+          currentVal += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        currentRow.push(currentVal.trim());
+        currentVal = '';
+      } else if ((char === '\r' || char === '\n') && !inQuotes) {
+        if (char === '\r' && nextChar === '\n') i++;
+        currentRow.push(currentVal.trim());
+        if (currentRow.length > 1 || (currentRow.length === 1 && currentRow[0] !== '')) {
+          rows.push(currentRow);
+        }
+        currentRow = [];
+        currentVal = '';
+      } else {
+        currentVal += char;
+      }
+    }
+    if (currentVal || currentRow.length > 0) {
+      currentRow.push(currentVal.trim());
+      rows.push(currentRow);
+    }
+
+    if (rows.length < 2) return [];
+    const headers = rows[0].map(h => h.replace(/^["']|["']$/g, '').trim());
+    const data = [];
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      if (row.every(c => !c)) continue;
+      const obj = {};
+      for (let j = 0; j < headers.length; j++) {
+        obj[headers[j]] = row[j] || '';
+      }
+      data.push(obj);
+    }
+    return data;
   }
 
   /**
