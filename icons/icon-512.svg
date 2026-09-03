@@ -1,40 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A2540" />
-      <stop offset="100%" stop-color="#0F172A" />
-    </linearGradient>
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#059669" />
-      <stop offset="100%" stop-color="#10B981" />
+      <stop offset="0%" stop-color="#181E25" />
+      <stop offset="100%" stop-color="#2A2421" />
     </linearGradient>
     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F59E0B" />
-      <stop offset="100%" stop-color="#D97706" />
+      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="50%" stop-color="#B68628" />
+      <stop offset="100%" stop-color="#8E6516" />
+    </linearGradient>
+    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F04E23" />
+      <stop offset="100%" stop-color="#C8461E" />
     </linearGradient>
   </defs>
   <!-- Background with iOS squircle shape -->
   <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
   
-  <!-- Subtle inner border -->
-  <rect x="8" y="8" width="496" height="496" rx="107" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" />
+  <!-- Warm gold hairline border -->
+  <rect x="8" y="8" width="496" height="496" rx="107" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-opacity="0.35" />
   
-  <!-- Caduceus / Pillar / M-H abstract emblem -->
+  <!-- Caduceus / Pillar / M-H abstract emblem in warm gold -->
   <g transform="translate(106, 116)">
-    <!-- Central Shield / Caduceus line -->
-    <path d="M150 20 L150 260" stroke="url(#accentGrad)" stroke-width="20" stroke-linecap="round"/>
+    <!-- Central Staff -->
+    <path d="M150 20 L150 260" stroke="url(#terracottaGrad)" stroke-width="18" stroke-linecap="round"/>
     
     <!-- Left Wing / M pillar -->
-    <path d="M50 240 L50 90 L130 180 L150 160" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M50 240 L50 90 L130 180 L150 160" fill="none" stroke="url(#goldGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
     
     <!-- Right Wing / H pillar -->
-    <path d="M250 240 L250 90 L170 180 L150 160" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M250 240 L250 90 L170 180 L150 160" fill="none" stroke="url(#goldGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
     
-    <!-- Golden Executive Star / Pulse Dot -->
-    <circle cx="150" cy="40" r="22" fill="url(#goldGrad)" />
+    <!-- Warm Gold Executive Star / Dot -->
+    <circle cx="150" cy="40" r="20" fill="url(#goldGrad)" />
   </g>
   
   <!-- Bottom Brand Text -->
-  <text x="256" y="430" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="34" font-weight="700" letter-spacing="6" fill="#F8F9FA" text-anchor="middle">MEDHOLDINGS</text>
-  <text x="256" y="462" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="20" font-weight="500" letter-spacing="4" fill="#94A3B8" text-anchor="middle">EXECUTIVE BRIEF</text>
+  <text x="256" y="430" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="34" font-weight="700" letter-spacing="6" fill="#FAF7F2" text-anchor="middle">MEDHOLDINGS</text>
+  <text x="256" y="462" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="18" font-weight="600" letter-spacing="4" fill="#B68628" text-anchor="middle">EXECUTIVE BRIEF</text>
 </svg>

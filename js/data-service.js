@@ -8,102 +8,29 @@ const STORAGE_KEY_DATA = 'medholdings_briefings_cache_v2';
 const STORAGE_KEY_CONFIG = 'medholdings_config_v2';
 const STORAGE_KEY_LAST_SYNC = 'medholdings_last_sync_v2';
 
-// High-fidelity fallback / out-of-the-box data populated from Claude transcript processing
+// Clean preview template awaiting live inputs from Claude MCP / Google Sheets
 const DEFAULT_SAMPLE_DATA = {
   dailySummaries: [
     {
       date: '2026-09-02',
       displayDate: 'Wednesday, September 2, 2026',
-      title: 'Portfolio Executive Review & Q3 Subsidiary Operations',
-      meetingType: 'Weekly Executive Operations Call',
-      duration: '47 mins',
-      processedAt: '2026-09-02 18:35 EDT',
-      executivePulse: 'Senior Living portfolio achieved **92.8% occupancy** crossing the target threshold ahead of Q4. Nova Infusion finalized payor credentialing with UnitedHealthcare expanding regional network access across 6 ambulatory clinics. AxisCare rolled out pilot automated dispatch reducing caregiver travel overhead by 14.2%.',
-      recordingSummary: `### Strategic Overview
-Today's portfolio operations review focused on capital allocation across ambulatory infusion centers and resolving regional staffing constraints in the midwestern Senior Living facilities. **MedHoldings executive leadership agreed to accelerate Nova Infusion Clinic #7 opening** to capture unmet biologic therapy demand.
+      title: 'Daily Briefing (Awaiting Claude Inputs)',
+      meetingType: 'Claude Transcript Feed',
+      duration: 'Live Feed Pending',
+      processedAt: 'Ready for Google Sheets Sync',
+      executivePulse: 'This is an interface preview demonstrating how Claude transcript summaries appear. Once you connect your Google Sheet or Claude script, your actual executive recordings, highlights, and directives will automatically display here.',
+      recordingSummary: `### What Will Appear Here
+Claude's daily transcript processing script will automatically populate Google Sheets with your real briefings, rendering here in real time:
 
-### Key Decisions & Executive Directives
-- **Approved Capex Expansion:** Authorized **$1.2M** tranche for Nova Infusion Clinic #7 facility buildout in North Columbus. Target opening moved up to **November 15, 2026**.
-- **Labor Rate Harmonization:** Authorized regional floating nursing pool for Senior Living cluster to reduce premium agency nurse spend by **$42k/month**.
-- **Commercial Contract Signoff:** Finalized UnitedHealthcare commercial network inclusion for specialty infusions, effective October 1.
+- **Executive Takeaways:** Core strategic movements and high-priority decisions distilled by Claude.
+- **Operational Highlights:** Key metrics and discussions from your recordings.
+- **Next Steps & Focus Areas:** Action items and watchlist points flagged during the session.
 
-### Cross-Facility Highlights
-- **Nova Infusion:** Daily chair utilization averaged **88.4%** across all 6 operational sites. Average patient dwell time decreased from 210 mins to **178 mins** with fast-track premedication protocol.
-- **Senior Living Holdings:** 14 out of 16 communities maintained zero open state survey tags. Resident satisfaction index scored **94.2/100**.
-- **AxisCare Home Health:** Active patient census reached **1,420** (+3.8% MoM). 30-day rehospitalization rate maintained at a record low of **8.1%** (national benchmark: 14.2%).
-
-### Emerging Strategic Considerations
-- **Supply Chain Watch:** Immunoglobulin (IVIG) allocation quotas remain tight for Q4. Procurement team secured 90-day reserve stock at contracted rate tier.
-- **State Licensing Update:** Ohio Board of Pharmacy pre-inspection passed with zero citations for the new ambulatory compounding room.`,
-      tags: ['Portfolio Review', 'Capex', 'Nova Infusion', 'Senior Living', 'Payor Contracts']
-    },
-    {
-      date: '2026-09-01',
-      displayDate: 'Tuesday, September 1, 2026',
-      title: 'AxisCare Telehealth Transition & Clinical Quality Briefing',
-      meetingType: 'Subsidiary Leadership Check-in',
-      duration: '35 mins',
-      processedAt: '2026-09-01 17:15 EDT',
-      executivePulse: 'AxisCare completed pilot validation of the remote patient monitoring (RPM) program for heart failure patients, demonstrating a **38% reduction in acute escalations**. Clinician recruitment pipeline added 6 full-time physical therapists in the southern region. Medicare Advantage billing review yielded zero audit discrepancies.',
-      recordingSummary: `### Clinical Leadership Summary
-Dr. Alistair and AxisCare leadership presented the 60-day readmission study for the post-acute CHF cohort. Remote physiological monitoring integrated into the nurse dashboard enabled proactive diuretic titration before emergency department presentations occurred.
-
-### Key Executive Action Items
-- **RPM Service Line Expansion:** Expand RPM kits from 120 current patients to **450 active enrollees** by end of October.
-- **OASIS Quality Scoring:** Clinical documentation accuracy hit **98.4%**, placing AxisCare in the top decile for CMS value-based purchasing bonus brackets.
-- **Billing Integration:** Cleared backlogged episodic billing adjustments with Anthem and Humana, recapturing **$185,000** in accelerated cash collections.
-
-### Operational Notes
-- Caregiver turnover dropped to **19.4%** annualized (compared to the 34% home health national average) following the retention wage adjustment enacted in July.`,
-      tags: ['AxisCare', 'Clinical Quality', 'RPM', 'CMS Compliance']
-    },
-    {
-      date: '2026-08-31',
-      displayDate: 'Monday, August 31, 2026',
-      title: 'MedHoldings Monthly Capital Allocation & M&A Pipeline',
-      meetingType: 'Investment Committee Sync',
-      duration: '58 mins',
-      processedAt: '2026-08-31 19:40 EDT',
-      executivePulse: 'Investment committee reviewed 3 prospective post-acute care acquisitions in North Carolina and Virginia with aggregate revenue of **$28M**. Nova Infusion EBITDA margin expanded to **24.6%** driven by drug procurement rebates. Senior Living debt refinance closed with regional banking syndicate lowering weighted cost of debt by **65 bps**.',
-      recordingSummary: `### Executive Investment Briefing
-Reviewed Q3 pipeline performance and credit facility availability. Total liquidity across MedHoldings Capital stands at **$34.8M** in cash and committed revolvers, providing full dry powder for targeted bolt-on acquisitions.
-
-### Pipeline Updates
-- **Project Blue Ridge (Virginia Home Health):** Quality of Earnings (QoE) completed. Confirmed $2.4M adjusted EBITDA on $14M revenue. Moving to definitive purchase agreement drafting.
-- **Project Cardinal (Raleigh Infusion Suite):** In exclusivity. Target close: November 30.
-- **Refinance Execution:** Signed amended credit facility terms with Fifth Third Bank. Saves **$310k annually** in net interest carrying costs.`,
-      tags: ['M&A', 'Investment Committee', 'Liquidity', 'Debt Facility']
-    },
-    {
-      date: '2026-08-28',
-      displayDate: 'Friday, August 28, 2026',
-      title: 'Senior Living Regional Directors & Facility Operations Standup',
-      meetingType: 'Operations Standup',
-      duration: '40 mins',
-      processedAt: '2026-08-28 16:20 EDT',
-      executivePulse: 'Regional leadership reported strong tour-to-move-in conversion rates (**44% vs 38% industry avg**) across the Memory Care communities. Dietary vendor consolidation completed on schedule, generating projected annual savings of **$240k**. Fire safety and life safety annual audits achieved 100% compliance across all 16 buildings.',
-      recordingSummary: `### Operations Rollup
-Memory care units continue to drive the highest margin contribution across the portfolio. Family satisfaction Net Promoter Score (NPS) reached **+68**, up 9 points from Q1.
-
-### Operational Directives
-- Standardized the resident wellness app rollout across all communities by September 15.
-- Approved energy management automation contract for HVAC controls, eligible for $60k in utility efficiency rebates.`,
-      tags: ['Senior Living', 'Operations', 'Occupancy', 'Cost Savings']
-    },
-    {
-      date: '2026-08-27',
-      displayDate: 'Thursday, August 27, 2026',
-      title: 'Nova Infusion Clinical Operations & Payor Contracting Review',
-      meetingType: 'Clinical & Commercial Review',
-      duration: '50 mins',
-      processedAt: '2026-08-27 18:00 EDT',
-      executivePulse: 'Reviewed payor mix transition showing commercial contracts now account for **62% of infusion revenue** (up from 51% in 2025). Oncology supportive care volume grew **18% MoM** following partnership with Regional Cancer Specialists. Pharmacy clean claim rate achieved **99.1%** with zero denial spikes.',
-      recordingSummary: `### Commercial & Clinical Highlights
-The shift towards ambulatory non-hospital infusion continues to deliver strong arbitrage against hospital outpatient departments (HOPD). Payors are actively directing rheumatology and neurology patients to Nova Infusion centers due to 40% lower total cost of care.
-
-### Next Steps
-- Implement streamlined automated prior authorization tool with covermymeds integration to shorten order-to-chair cycle from 7 days to 72 hours.`,
-      tags: ['Nova Infusion', 'Commercial Payors', 'Prior Auth', 'Oncology']
+### Connecting Your Live Claude Sheet
+1. Tap the **⚙ (gear)** icon in the top right of the dashboard.
+2. Enter your Google Apps Script Web App URL (from the included \`google-apps-script.js\`).
+3. Tap **Save & Re-sync** to immediately load your actual data.`,
+      tags: ['Claude Feed', 'Live Sync Ready', 'Executive Brief']
     }
   ],
   weeklySyntheses: [
@@ -111,65 +38,21 @@ The shift towards ambulatory non-hospital infusion continues to deliver strong a
       weekId: '2026-W36',
       weekRange: 'Aug 31 – Sep 6, 2026',
       status: 'Current Week',
-      headline: 'Accelerating Organic Margin Expansion & Ambulatory Infusion Footprint',
-      executiveSummary: `This week reflected strong cross-subsidiary operational discipline. **Senior Living portfolio crossed 92.8% occupancy**, Nova Infusion locked in commercial payor contracting with UnitedHealthcare, and debt refinancing successfully concluded to free **$310k in annual cash savings**.
-
-Claude MCP processing analyzed 5 executive transcripts totaling 230 minutes of operational dialogue, identifying strong tailwinds in specialty infusion demand and stabilising post-acute nursing retention.`,
+      headline: 'Weekly Operational Rollup & Synthesis',
+      executiveSummary: `At the end of each operational cycle, Claude aggregates your daily conversation transcripts into cross-facility synthesis, emerging trends, and strategic milestones.`,
       keyAccomplishments: [
-        '**Senior Living Occupancy Record:** Reached 92.8% portfolio average, reducing concession discounts by 30%.',
-        '**Nova Infusion Network Win:** Signed full commercial contract with UHC for 6 ambulatory infusion suites.',
-        '**Debt Refinancing Closed:** Re-priced bank syndicate facility saving 65 bps in spread.',
-        '**AxisCare RPM Validation:** 38% reduction in CHF hospital readmissions demonstrated in clinical review.'
+        'Weekly accomplishments and closed directives identified by Claude will be listed here.',
+        'Cross-facility milestones automatically aggregated from daily logs.'
       ],
       emergingTrends: [
         {
-          title: 'Shift from Inpatient to Ambulatory Specialty Care',
-          detail: 'Commercial payors are aggressively incentivizing independent ambulatory infusion centers over health systems. Nova Infusion is positioned to capture this migration with 40% lower delivery cost.',
+          title: 'Emerging Operational Trends',
+          detail: 'Claude analyzes patterns across daily transcripts (e.g. facility census, operational efficiency, regulatory notices) and highlights trends with sentiment tags.',
           sentiment: 'positive'
-        },
-        {
-          title: 'Direct Nursing Pool Stabilization',
-          detail: 'Agency nursing dependency dropped from 14% to 5.2% across senior communities over the past 60 days, reversing the primary cost inflator of 2025.',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Biologic Drug Procurement Allocation',
-          detail: 'National specialty pharma allocations for IVIG and specific monoclonal antibodies require proactive distributor pre-purchasing. Cash buffer allocated accordingly.',
-          sentiment: 'neutral'
         }
       ],
       executiveWatchlist: [
-        'Monitor Project Blue Ridge definitive documentation and Virginia regulatory transfer approvals.',
-        'Track construction milestones for Nova Infusion Clinic #7 (North Columbus site).',
-        'Confirm launch of automated prior authorization workflow by September 15.'
-      ]
-    },
-    {
-      weekId: '2026-W35',
-      weekRange: 'Aug 24 – Aug 30, 2026',
-      status: 'Prior Week',
-      headline: 'Post-Acute Clinical Quality Milestones & Capex Governance',
-      executiveSummary: `Prior week focused on standardizing clinical workflows in AxisCare and finalizing vendor consolidation for Senior Living facilities. Capital expenditures tracking remains within 2.1% of budget across all subsidiary projects.`,
-      keyAccomplishments: [
-        '**OASIS Documentation Accuracy:** Ranked in top 10% nationwide for CMS value-based incentive.',
-        '**Dietary Vendor Consolidation:** Executed master food distribution contract saving $240k annualized.',
-        '**Ambulatory Pharmacy Clean Inspections:** Ohio Board of Pharmacy pre-inspection passed with zero citations.'
-      ],
-      emergingTrends: [
-        {
-          title: 'Value-Based Purchasing Quality Multipliers',
-          detail: 'Consistent documentation compliance is creating an estimated $350k upward reimbursement adjustment for 2027 fiscal year.',
-          sentiment: 'positive'
-        },
-        {
-          title: 'Home Health Labor Regional Divergence',
-          detail: 'Physical therapy staffing remains tighter in rural territories while nursing recruitment has normalized.',
-          sentiment: 'neutral'
-        }
-      ],
-      executiveWatchlist: [
-        'Complete Q3 Quality of Earnings review for Project Blue Ridge acquisition.',
-        'Finalize commercial rates for specialty infusion network inclusion.'
+        'Unresolved follow-ups and upcoming leadership deadlines flagged by Claude will appear here.'
       ]
     }
   ]

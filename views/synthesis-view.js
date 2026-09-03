@@ -105,7 +105,7 @@ export class SynthesisView {
         <section class="ios-card">
           <div class="ios-section-header">
             <div class="ios-section-title-wrap">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#059669" stroke-width="2.5">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0E7044" stroke-width="2.5">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
               </svg>
@@ -123,7 +123,7 @@ export class SynthesisView {
         <section class="ios-card">
           <div class="ios-section-header">
             <div class="ios-section-title-wrap">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#2563EB" stroke-width="2.5">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#B68628" stroke-width="2.5">
                 <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
                 <polyline points="17 6 23 6 23 12"></polyline>
               </svg>
@@ -142,7 +142,7 @@ export class SynthesisView {
         <section class="ios-card ios-watchlist-card">
           <div class="ios-section-header">
             <div class="ios-section-title-wrap">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#D97706" stroke-width="2.5">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#C8461E" stroke-width="2.5">
                 <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                 <line x1="12" y1="9" x2="12" y2="13"></line>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>

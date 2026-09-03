@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
   <defs>
     <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A2540" />
-      <stop offset="100%" stop-color="#0F172A" />
-    </linearGradient>
-    <linearGradient id="accentGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#059669" />
-      <stop offset="100%" stop-color="#10B981" />
+      <stop offset="0%" stop-color="#181E25" />
+      <stop offset="100%" stop-color="#2A2421" />
     </linearGradient>
     <linearGradient id="goldGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F59E0B" />
-      <stop offset="100%" stop-color="#D97706" />
+      <stop offset="0%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#B68628" />
+    </linearGradient>
+    <linearGradient id="terracottaGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F04E23" />
+      <stop offset="100%" stop-color="#C8461E" />
     </linearGradient>
   </defs>
   <rect width="192" height="192" rx="42" fill="url(#bgGrad192)" />
-  <rect x="4" y="4" width="184" height="184" rx="38" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" />
+  <rect x="4" y="4" width="184" height="184" rx="38" fill="none" stroke="url(#goldGrad192)" stroke-width="2" stroke-opacity="0.35" />
   
   <g transform="translate(36, 42)">
-    <path d="M60 10 L60 95" stroke="url(#accentGrad192)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M20 90 L20 36 L52 70 L60 62" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M100 90 L100 36 L68 70 L60 62" fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M60 10 L60 95" stroke="url(#terracottaGrad192)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M20 90 L20 36 L52 70 L60 62" fill="none" stroke="url(#goldGrad192)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M100 90 L100 36 L68 70 L60 62" fill="none" stroke="url(#goldGrad192)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="60" cy="16" r="9" fill="url(#goldGrad192)" />
   </g>
-  <text x="96" y="166" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#F8F9FA" text-anchor="middle">MEDHOLDINGS</text>
+  <text x="96" y="166" font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#FAF7F2" text-anchor="middle">MEDHOLDINGS</text>
 </svg>

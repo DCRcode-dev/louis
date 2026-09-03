@@ -76,7 +76,7 @@ export class DailyView {
         <section class="ios-card ios-summary-card">
           <div class="ios-section-header">
             <div class="ios-section-title-wrap">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0A2540" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#B68628" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
               </svg>
@@ -104,7 +104,7 @@ export class DailyView {
     this.container.innerHTML = `
       <div class="ios-empty-state-card">
         <div class="ios-empty-icon">
-          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#64748B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#B8A99A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
             <line x1="8" y1="2" x2="8" y2="6"></line>

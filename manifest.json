@@ -4,8 +4,8 @@
   "description": "Executive Daily Briefings & Weekly Synthesis for Vice President of MedHoldings Capital",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#F8F9FA",
-  "theme_color": "#0A2540",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
   "orientation": "portrait",
   "icons": [
     {
