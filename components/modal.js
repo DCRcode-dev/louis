@@ -13,6 +13,7 @@ export class SettingsModal {
     this.closeBtn = document.getElementById('btn-close-settings');
     this.saveBtn = document.getElementById('btn-save-settings');
     this.syncBtn = document.getElementById('btn-sync-now');
+    this.otaBtn = document.getElementById('btn-check-ota');
     this.resetBtn = document.getElementById('btn-reset-sample');
     this.urlInput = document.getElementById('input-appscript-url');
     this.syncStatusText = document.getElementById('sync-status-display');
@@ -36,6 +37,17 @@ export class SettingsModal {
     }
     if (this.syncBtn) {
       this.syncBtn.addEventListener('click', () => this.handleManualSync());
+    }
+    if (this.otaBtn) {
+      this.otaBtn.addEventListener('click', () => {
+        this.showFeedback('Checking for updates…');
+        if (window.__checkAppUpdate) {
+          window.__checkAppUpdate();
+          setTimeout(() => {
+            this.showFeedback('App is up to date');
+          }, 1200);
+        }
+      });
     }
     if (this.resetBtn) {
       this.resetBtn.addEventListener('click', () => this.handleResetData());

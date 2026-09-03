@@ -1307,3 +1307,57 @@ html, body {
   opacity: 0;
   transition: opacity 0.2s ease;
 }
+
+/* ==========================================================================
+   OTA Update Pill / Chip (Quiet, Warm Espresso & Gold, matching Gym app)
+   ========================================================================== */
+#update-chip {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-height) + 16px);
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  z-index: 380;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-espresso);
+  color: #FAF7F2;
+  border: 1px solid var(--color-gold);
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(42, 36, 33, 0.28);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#update-chip.on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+#update-chip:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+.uc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 8px #22C55E;
+  animation: pillPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pillPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.35); opacity: 1; }
+}
+

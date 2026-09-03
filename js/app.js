@@ -178,17 +178,87 @@ class App {
   }
 
   registerServiceWorker() {
-    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then((reg) => {
-            console.log('MedHoldings PWA Service Worker registered:', reg.scope);
-          })
-          .catch((err) => {
-            console.log('Service Worker registration skipped:', err);
-          });
+    if (!('serviceWorker' in navigator) || !window.location.protocol.startsWith('http')) return;
+
+    let swReg = null;
+    let updateAccepted = false;
+
+    const showUpdateChip = (reg) => {
+      if (document.getElementById('update-chip')) return;
+      const chip = document.createElement('button');
+      chip.id = 'update-chip';
+      chip.setAttribute('aria-label', 'New update ready, tap to reload');
+      chip.innerHTML = '<span class="uc-dot"></span><span>Updated · Tap to restart</span>';
+      chip.onclick = () => {
+        updateAccepted = true;
+        if (navigator.vibrate) navigator.vibrate(12);
+        chip.innerHTML = '<span class="uc-dot"></span><span>Restarting…</span>';
+        chip.disabled = true;
+        if (reg && reg.waiting) {
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        } else {
+          window.location.reload();
+        }
+      };
+      document.body.appendChild(chip);
+      requestAnimationFrame(() => {
+        chip.classList.add('on');
       });
-    }
+    };
+
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then((reg) => {
+          swReg = reg;
+          this.swReg = reg;
+          console.log('MedHoldings PWA Service Worker registered:', reg.scope);
+
+          // If a new worker is already waiting, show update pill immediately
+          if (reg.waiting) {
+            showUpdateChip(reg);
+          }
+
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateChip(reg);
+              }
+            });
+          });
+        })
+        .catch((err) => {
+          console.log('Service Worker registration skipped:', err);
+        });
+    });
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (updateAccepted) {
+        window.location.reload();
+      }
+    });
+
+    // Check for updates whenever user returns to the app
+    let lastCheck = Date.now();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - lastCheck < 60 * 1000) return; // 1 min throttle
+      lastCheck = Date.now();
+      if (swReg) swReg.update().catch(() => {});
+    });
+
+    window.__checkAppUpdate = () => {
+      if (swReg) {
+        swReg.update().then(() => {
+          setTimeout(() => {
+            if (swReg.waiting || swReg.installing) {
+              showUpdateChip(swReg);
+            }
+          }, 800);
+        }).catch(() => {});
+      }
+    };
   }
 }
 
